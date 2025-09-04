@@ -14,6 +14,7 @@ const notes = [
 
 
 const server = http.createServer((req, res) => {
+    console.log(`Incoming request: ${req.method} ${req.url}`);
     if (req.method === 'GET' && req.url === '/') {
         res.statusCode = 200;
         res.setHeader('Content-Type', 'text/plain');
@@ -37,6 +38,6 @@ const server = http.createServer((req, res) => {
     }
 });
 
-server.listen(8080, () => {
-    console.log('Server running at http://localhost:8080/');
+server.listen(3000, () => {
+    console.log('Server running at http://localhost:3000/');
 });
