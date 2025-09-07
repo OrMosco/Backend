@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Furniture Price Checker</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        #result { margin-top: 20px; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>Check Furniture Price</h1>
+    <input type="text" id="furnitureName" placeholder="Enter furniture name">
+    <button onclick="checkPrice()">Check Price</button>
+    <div id="result"></div>
+
+    <h2>Buy Furniture</h2>
+    <input type="text" id="buyName" placeholder="Enter furniture name to buy">
+    <button onclick="buyItem()">Buy</button>
+    <div id="buyResult"></div>
+
+    <script>
+        function checkPrice() {
+            const name = document.getElementById('furnitureName').value;
+            fetch(`/priceCheck/${encodeURIComponent(name)}`)
+                .then(response => response.json())
+                .then(data => {
+                    const resultDiv = document.getElementById('result');
+                    if (data.price !== null) {
+                        resultDiv.textContent = `Price: $${data.price}`;
+                    } else {
+                        resultDiv.textContent = 'Item not found.';
+                    }
+                })
+                .catch(() => {
+                    document.getElementById('result').textContent = 'Error fetching price.';
+                });
+        }
+
+        function buyItem() {
+            const name = document.getElementById('buyName').value;
+            fetch(`/buy/${encodeURIComponent(name)}`)
+                .then(response => response.json())
+                .then(data => {
+                    const buyDiv = document.getElementById('buyResult');
+                    if (data.error) {
+                        buyDiv.textContent = data.error;
+                    } else {
+                        buyDiv.textContent = `Congratulations, you've just bought ${data.name} for ${data.price}. There are ${data.inventory} left now in the store.`;
+                    }
+                })
+                .catch(() => {
+                    document.getElementById('buyResult').textContent = 'Error buying item.';
+                });
+        }
+    </script>
+</body>
+</html>
