@@ -21,7 +21,7 @@ app.get('/', (req, res) => {
 
 app.get('/about', (req, res) => {
     res.send('This is the about page');
-});
+});npm 
 
 app.get('/contact', (req, res) => {
     res.send('Contact: your.email@example.com');
